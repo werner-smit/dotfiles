@@ -31,8 +31,9 @@ client.unfocused           #000000   #333333    #FFFFFF
 client.urgent              #FF0000   #FF0000    #FF0000
 bar.focused                #1793D0   #000000    #FFFFFF
 bar.unfocused              #333333   #000000    #FFFFFF
-bar.urgent                 #FF0000   #000000    #FF0000
+# bar.urgent                 #FF0000   #000000    #FF0000
 
+floating_minimum_size 800 x 600
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
