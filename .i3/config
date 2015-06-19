@@ -18,16 +18,16 @@ set $mon2 LVDS1
 
 #Startups
 exec --no-startup-id compton --config ~/.compton.conf
-exec_always nm-applet
+exec nm-applet
 exec feh --bg-fill ~/.wallpapers/steamburn.png
 
 # Style settings
 new_window pixel 1
 
 # class                 border  backgr. text    indicator
-client.focused          #859900 #859900 #fdf6e3 #2e9ef4
-client.focused_inactive #268bd2 #268bd2 #fdf6e3 #484e50
-client.unfocused        #333333 #93a1a1 #fdf6e3 #292d2e
+client.focused          #E0FF00 #E0FF00 #111111 #FF0000
+client.focused_inactive #111111 #666666 #fdf6e3 #292d2e
+client.unfocused        #111111 #111111 #fdf6e3 #292d2e
 
 #floating_minimum_size 800 x 600
 # Font for window titles. Will also be used by the bar unless a different font
@@ -191,13 +191,18 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
     status_command i3status
+    binding_mode_indicator yes
+    font pango:Monospace 11
     colors 
     {
         # solarized
-        background #073642
-        statusline #eee8d5
-        focused_workspace #cb4b16 #cb4b16 #eee8d5
-        active_workspace #cb4b16 #cb4b16 #eee8d5
-        inactive_workspace #b58900 #b58900 #eee8d5
+        background #111111
+        statusline #eeeeee
+        separator #E0FF00
+        # colorclass <border> <background> <text>
+        urgent_workspace #ff0066 #ff0066 #eee8d5
+        focused_workspace #666666 #E0FF00 #111111
+        active_workspace #E0FF00 #111111 #eee8d5
+        inactive_workspace #111111 #111111 #eee8d5
     }
 }
