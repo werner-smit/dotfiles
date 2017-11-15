@@ -12,25 +12,22 @@
 set $mod Mod4
 
 #Configs
-set $terminal gnome-terminal
+set $terminal termite
 set $mon1 LVDS1
 set $mon2 VGA1
+set $mon_align up # can be up or right. Used for moving worksapces
+bindsym $mod+Tab move workspace to output up
 
 #Startups
 exec --no-startup-id compton --config ~/.compton.conf
-exec --no-startup-id gnome-settings-daemon
+#exec --no-startup-id gnome-settings-daemon
 exec nm-applet
-exec feh --bg-fill ~/.wallpapers/steamburn.png
-exec wmname Sawfish
-exec _JAVA_AWT_WM_NONREPARENTING=1; export _JAVA_AWT_WM_NONREPARENTING
-exec AWT_TOOLKIT=MToolkit; export AWT_TOOLKIT
+# Set background
+exec feh --bg-tile ~/.wallpapers/techno_wallpaper_hd_by_gredius-d4guyxr.jpg
+#workspace 1 
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/werner/.i3/ws1.json'"
 # Style settings
 new_window pixel 1
-
-# class                 border  backgr. text    indicator
-client.focused          #E0FF00 #E0FF00 #111111 #FF0000
-client.focused_inactive #111111 #666666 #fdf6e3 #292d2e
-client.unfocused        #111111 #111111 #fdf6e3 #292d2e
 
 #floating_minimum_size 800 x 600
 # Font for window titles. Will also be used by the bar unless a different font
@@ -40,7 +37,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-# font pango:DejaVu Sans Mono 10
+font pango:DejaVu Sans 12
 
 
 ##############
@@ -69,11 +66,9 @@ for_window [class="Wine"] floating enable
 bindsym $mod+Return exec $terminal
 
 # kill focused window
-bindsym $mod+Shift+q kill
+# bindsym $mod+Shift+q kill
 bindsym $mod+c kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -190,6 +185,22 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+set $sel_bg #E0FF00
+set $sel_bg #44fFff
+set $sel_text #111111
+set $sel_border #666666
+set $urg_bg #ff0066
+set $inac_text #eee8d5
+set $inac_border #00ff00
+
+# class                 border  backgr. text    indicator
+client.focused          $sel_bg $sel_bg $sel_text #FF0000
+client.focused_inactive #111111 #666666 #fdf6e3 #292d2e
+client.unfocused        #111111 #111111 #fdf6e3 #292d2e
+#
+# start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run -sb "$sel_bg" -sf "$sel_text" -fn "DejaVu Sans-16"
+#
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -198,17 +209,17 @@ bar {
     status_command i3blocks
 
     binding_mode_indicator yes
-    font pango:Monospace 11
+    #font pango:Monospace 14
     colors 
     {
         # solarized
         background #111111
-        statusline #eeeeee
-        separator #E0FF00
+        statusline $inac_text
+        separator #ff0066
         # colorclass <border> <background> <text>
         urgent_workspace #ff0066 #ff0066 #eee8d5
-        focused_workspace #666666 #E0FF00 #111111
-        active_workspace #E0FF00 #111111 #eee8d5
-        inactive_workspace #111111 #111111 #eee8d5
+        focused_workspace $sel_border $sel_bg $sel_text
+        active_workspace $sel_bg $sel_border $inac_text
+        inactive_workspace $sel_text $sel_text $inac_text
     }
 }
