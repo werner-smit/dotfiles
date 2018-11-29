@@ -12,7 +12,9 @@
 set $mod Mod4
 
 #Configs
-set $terminal termite
+#set $terminal termite
+set $terminal gnome-terminal
+set $screensaver gnome-screensaver-command -l
 set $mon1 LVDS1
 set $mon2 VGA1
 set $mon_align up # can be up or right. Used for moving worksapces
@@ -22,10 +24,11 @@ bindsym $mod+Tab move workspace to output up
 exec --no-startup-id compton --config ~/.compton.conf
 #exec --no-startup-id gnome-settings-daemon
 exec nm-applet
+exec gnome-screensaver
 # Set background
 exec feh --bg-tile ~/.wallpapers/techno_wallpaper_hd_by_gredius-d4guyxr.jpg
 #workspace 1 
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/werner/.i3/ws1.json'"
+#exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/werner/.i3/ws1.json'"
 # Style settings
 new_window pixel 1
 
@@ -43,7 +46,8 @@ font pango:DejaVu Sans 12
 ##############
 #Custom binds#
 ##############
-bindsym Control+Shift+l exec gnome-screensaver-command -l && xset dpms force off 
+bindsym Control+Shift+l exec $screensaver && xset dpms force off 
+bindsym Control+Shift+k exec sleep 1&& xset dpms force off 
 
 bindsym $mod+comma exec wine /home/werner/apps/foobar2000/foobar2000.exe /prev
 bindsym $mod+period exec wine /home/werner/apps/foobar2000/foobar2000.exe /next
