@@ -20,6 +20,25 @@ set $mon2 VGA1
 set $mon_align up # can be up or right. Used for moving worksapces
 bindsym $mod+Tab move workspace to output up
 
+#MultiMedia KeyBinds
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
 #Startups
 exec --no-startup-id compton --config ~/.compton.conf
 #exec --no-startup-id gnome-settings-daemon
@@ -30,9 +49,10 @@ exec feh --bg-tile ~/.wallpapers/techno_wallpaper_hd_by_gredius-d4guyxr.jpg
 #workspace 1 
 #exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/werner/.i3/ws1.json'"
 # Style settings
-new_window pixel 1
+new_window pixel 5
 
-#floating_minimum_size 800 x 600
+#floating_minimum_size -100 x -100
+#floating_maximum_size -100 x -100
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -42,7 +62,15 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # chose a FreeType font, such as:
 font pango:DejaVu Sans 12
 
+# I3-GAPS
+# gaps [inner|outer|horizontal|vertical|top|left|bottom|right] <px>
+# workspace <ws> gaps [inner|outer|horizontal|vertical|top|left|bottom|right] <px>
 
+gaps outer 0
+gaps inner 5
+
+#smart_gaps on
+smart_gaps inverse_outer
 ##############
 #Custom binds#
 ##############
@@ -53,19 +81,22 @@ bindsym $mod+comma exec wine /home/werner/apps/foobar2000/foobar2000.exe /prev
 bindsym $mod+period exec wine /home/werner/apps/foobar2000/foobar2000.exe /next
 bindsym $mod+slash exec wine /home/werner/apps/foobar2000/foobar2000.exe /playpause
 
-#volume control
-bindsym $mod+minus exec amixer set Master playback 1%-
-bindsym $mod+equal exec amixer set Master playback 1%+
+##volume control
+#bindsym $mod+minus exec amixer set Master playback 5%-
+#bindsym $mod+equal exec amixer set Master playback 5%+
 
 bindsym $mod+grave scratchpad show
 bindsym $mod+Shift+grave move scratchpad
+
+#Take a screenshot #TODO: Make save location declared in a config like style at the top.
+bindsym --release $mod+p exec --no-startup-id name=$(date +%Y-%m-%d_%T).png && import ~/Pictures/screenshots/$name && feh ~/Pictures/screenshots/$name  
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 for_window [window_role="pop-up"] floating enable
 for_window [class="Wine"] floating enable
-#
+
 # start a terminal
 bindsym $mod+Return exec $terminal
 
@@ -130,7 +161,8 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 #Workspace config
-bindsym $mod+o move workspace to output right
+#bindsym $mod+o move workspace to output right
+bindsym $mod+o move workspace to output up
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -163,6 +195,15 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+
+# Window placements
+assign [class="^zoom$"] 7
+assign [class="rocket"] 3
+assign [title="^Mozilla\ Firefox$"] 2
+assign [class="gvim"] 4
+# Rocketchat
+assign [window_role="browser-window"] 3
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -191,6 +232,7 @@ bindsym $mod+r mode "resize"
 
 set $sel_bg #E0FF00
 set $sel_bg #44fFff
+#set $sel_bg #ffb52a
 set $sel_text #111111
 set $sel_border #666666
 set $urg_bg #ff0066
@@ -199,8 +241,8 @@ set $inac_border #00ff00
 
 # class                 border  backgr. text    indicator
 client.focused          $sel_bg $sel_bg $sel_text #FF0000
-client.focused_inactive #111111 #666666 #fdf6e3 #292d2e
-client.unfocused        #111111 #111111 #fdf6e3 #292d2e
+client.focused_inactive #CCCCCC #333333 #fdf6e3 #292d2e
+client.unfocused        #CCCCCC #CCCCCC #fdf6e3 #292d2e
 #
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run -sb "$sel_bg" -sf "$sel_text" -fn "DejaVu Sans-16"
