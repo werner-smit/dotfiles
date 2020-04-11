@@ -1,5 +1,9 @@
 EXCLUDES=".git . .."
 
+DFPATH=$(dirname $(readlink -f "$0"));
+INSTALLPATH="$(realpath ~/)"
+cd $DFPATH
+
 for f in .*;
 do
     is_in_exclude=0
@@ -11,12 +15,18 @@ do
         fi
     done
 
-    if [ $is_in_exclude -eq 1 ];
-    then 
-        echo "Skipping $f"
-    else
-        echo "Creating symlink: ln -s $(pwd)/$f ~/"
-        ln -s $(pwd)/$f ~/
+    abspath=$(pwd)/$f
+    absinstallpath=$INSTALLPATH/$f
+    if [ ! $is_in_exclude -eq 1 ];
+    then
+        if [[ -L $absinstallpath || ! -f $absinstallpath ]]
+        then
+            echo "[Re]creating symlink: ln -is $abspath $absinstallpath"
+            ln -sf $abspath $INSTALLPATH;
+        else
+            echo "WARNING: Destination already exists. Backup create for '$abspath'"
+            ln -sf $abspath $INSTALLPATH
+        fi;
     fi
-    #echo $f
 done
+echo "Installation done."

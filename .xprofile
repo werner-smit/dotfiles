@@ -1,0 +1,16 @@
+#TZ='Asia/Tbilisi'; export TZ
+#TZ='Asia/Seoul'; export TZ
+# fetch the property id for the trackpad.
+TOUCHPADID=$(xinput --list | grep TouchPad | sed 's/.*id=\([0-9]*\).*/\1/g')
+TAPPINGID=$(xinput list-props "$TOUCHPADID" | grep "Tapping Enabled (" | sed 's/.*(\([0-9]*\).*/\1/g' )
+xinput set-prop $TOUCHPADID $TAPPINGID 1
+
+xmodmap -e 'clear Lock' -e 'keycode 0x66 = Escape'
+
+
+
+autocutsel -fork &
+autocutsel -selection PRIMARY -fork &
+
+#Turn off bell
+xset -b
